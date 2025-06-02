@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/go-playground/locales/be"
 )
 
 const alive string = "X"
@@ -18,6 +20,47 @@ func contains(row []string, target string) int {
 		}
 	}
 	return count
+}
+
+func indexes(row []string) []int {
+	indicesList := []int{}
+	for i := 0; i < len(row); i++ {
+		if row[i] == alive {
+			indicesList = append(indicesList, i)
+		}
+	}
+	return indicesList
+}
+
+func spaceAround(checking int, above, below []string) bool {
+	cellsAround := 0
+	aboveIdices := indexes(above)
+	belowIdices := indexes(below)
+
+	for i := 0; i < len(aboveIdices); i++ {
+		if checking == aboveIdices[i] {
+			cellsAround++
+		} else if checking-1 == aboveIdices[i] {
+			cellsAround++
+		} else if checking+1 == aboveIdices[i] {
+			cellsAround++
+		}
+
+	for i := 0; i < len(belowIdices); i++ {
+		if checking == belowIdices[i] {
+			cellsAround++
+		} else if checking-1 == belowIdices[i] {
+			cellsAround++
+		} else if checking+1 == belowIdices[i] {
+			cellsAround++
+		}
+
+		if cellsAround > 3 {
+			return false
+		} else {
+			return true
+		}
+	}
 }
 
 func board() Board {
@@ -41,9 +84,7 @@ func solitude(board Board) Board {
 			if contains(board[i-1], alive) == 0 && contains(board[i+1], alive) == 0 {
 				fmt.Println("Row " + strconv.Itoa(i) + " died")
 			}
-
 		}
-
 	}
 
 	return board
