@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"strconv"
-
-	"github.com/go-playground/locales/be"
 )
 
 const alive string = "X"
@@ -45,6 +43,7 @@ func spaceAround(checking int, above, below []string) bool {
 		} else if checking+1 == aboveIdices[i] {
 			cellsAround++
 		}
+	}
 
 	for i := 0; i < len(belowIdices); i++ {
 		if checking == belowIdices[i] {
@@ -54,18 +53,18 @@ func spaceAround(checking int, above, below []string) bool {
 		} else if checking+1 == belowIdices[i] {
 			cellsAround++
 		}
-
-		if cellsAround > 3 {
-			return false
-		} else {
-			return true
-		}
 	}
+	if cellsAround == 2 {
+		return true
+	} else if cellsAround == 3 {
+		return true
+	}
+	return false
 }
 
 func board() Board {
 	row1 := []string{dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead}
-	row2 := []string{dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead}
+	row2 := []string{dead, alive, alive, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead}
 	row3 := []string{dead, dead, alive, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead}
 	row4 := []string{dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead}
 	row5 := []string{dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead, dead}
@@ -101,4 +100,7 @@ func printBoard(board [][]string) {
 func main() {
 	printBoard(board())
 	solitude(board())
+	board := board()
+
+	fmt.Println(spaceAround(2, board[1], board[3]))
 }
